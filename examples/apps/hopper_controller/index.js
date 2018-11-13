@@ -20,7 +20,7 @@ app.launch(function(req, res) {
 // schedule_move.publish({data: "wave_hi"});
 
 app.intent("HopperDance", {
-  "utterances": ["Do the {dance_type} dance"]
+  "utterances": ["Do the {dance_type} dance", "Do the {dance_type} move"]
 }, function(req, res) {
   console.log("This is dance " + req.data.request.intent.slots.dance_type.value);
   if (req.data.request.intent.slots.dance_type.value === "wave"){
