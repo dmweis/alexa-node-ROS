@@ -17,20 +17,20 @@ app.launch(function(req, res) {
 // req.data.request.intent.slots.slot_name.value
 
 // to publish a string
-// speak_topic.publish({data: "wave_hi"});
+// schedule_move.publish({data: "wave_hi"});
 
 app.intent("HopperDance", {
   "utterances": ["Do the {dance_type} dance"]
 }, function(req, res) {
   console.log("This is dance " + req.data.request.intent.slots.dance_type.value);
   if (req.data.request.intent.slots.dance_type.value === "wave"){
-    speak_topic.publish({data: "wave_hi"});
+    schedule_move.publish({data: "wave_hi"});
   }
   else if (req.data.request.intent.slots.dance_type.value === "happy"){
-    speak_topic.publish({data: "happy_dance"});
+    schedule_move.publish({data: "happy_dance"});
   }
   else if (req.data.request.intent.slots.dance_type.value === "sad"){
-    speak_topic.publish({data: "sad_emote"});
+    schedule_move.publish({data: "sad_emote"});
   }
   res.say('');
 });
@@ -38,7 +38,14 @@ app.intent("HopperDance", {
 app.intent("PublishHelloIntent", {
   "utterances": ["Say hi", "Say hello"]
 }, function(req, res) {
-  speak_topic.publish({data: "wave_hi"});
+  schedule_move.publish({data: "wave_hi"});
+  res.say('');
+});
+
+app.intent("OpenPodBayDoors", {
+  "utterances": ["Open pod bay doors"]
+}, function(req, res) {
+  speak_topic.publish({data: "i_am_sorry"});
   res.say('');
 });
 
@@ -63,7 +70,8 @@ ros.on('close', function() {
   console.log('publish-example: Connection to websocket server closed.');
 });
 
-var speak_topic = new ROSLIB.Topic({ros: ros, name: '/hopper_schedule_move', messageType: 'std_msgs/String'});
+var schedule_move = new ROSLIB.Topic({ros: ros, name: '/hopper_schedule_move', messageType: 'std_msgs/String'});
+var speak_topic = new ROSLIB.Topic({ros: ros, name: '/hopper_play_sound', messageType: 'std_msgs/String'});
 
 
 // Export the alexa-app we created at the top
