@@ -32,7 +32,7 @@ app.intent("HopperDance", {
   else if (req.data.request.intent.slots.dance_type.value === "sad"){
     schedule_move.publish({data: "sad_emote"});
   }
-  else if (req.data.request.intent.slots.dance_type.value === "roar"){
+  else if (req.data.request.intent.slots.dance_type.value === "roar" || req.data.request.intent.slots.dance_type.value === "attack"){
     schedule_move.publish({data: "roar"});
   }
   res.say('');
