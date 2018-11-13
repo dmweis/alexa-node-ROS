@@ -32,6 +32,9 @@ app.intent("HopperDance", {
   else if (req.data.request.intent.slots.dance_type.value === "sad"){
     schedule_move.publish({data: "sad_emote"});
   }
+  else if (req.data.request.intent.slots.dance_type.value === "roar"){
+    schedule_move.publish({data: "roar"});
+  }
   res.say('');
 });
 
