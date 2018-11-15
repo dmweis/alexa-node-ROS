@@ -25,7 +25,16 @@ app.intent("TiagoRoom", {
   // Log to console that the intent was received
   console.log("Go to room was requested");
   go_to_room_topic.publish({data: req.data.request.intent.slots.room.value});
-  res.say('On my way to the ' + req.data.request.intent.slots.room.value);
+  res.say('On my way to ' + req.data.request.intent.slots.room.value);
+});
+
+app.intent("TiagoObject", {
+  "utterances": ["bring me {object}", "get me {object}"]
+}, function(req, res) {
+  // Log to console that the intent was received
+  console.log("Bring object was requested");
+  bring_me_topic.publish({data: req.data.request.intent.slots.object.value});
+  res.say('On my way to bring ' + req.data.request.intent.slots.object.value);
 });
 
 app.intent("PublishHelloIntent", {
@@ -58,6 +67,7 @@ ros.on('close', function() {
 });
 
 var go_to_room_topic = new ROSLIB.Topic({ros: ros, name: 'tiago/room_target', messageType: 'std_msgs/String'});
+var bring_me_topic = new ROSLIB.Topic({ros: ros, name: 'tiago/bring_object', messageType: 'std_msgs/String'});
 
 // Export the alexa-app we created at the top
 module.exports = app;
