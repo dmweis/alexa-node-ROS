@@ -25,7 +25,7 @@ app.intent("TiagoRoom", {
   // Log to console that the intent was received
   console.log("Go to room was requested");
   go_to_room_topic.publish({data: req.data.request.intent.slots.room.value});
-  res.say('On my way to bring ' + req.data.request.intent.slots.room.value);
+  res.say('On my way to the ' + req.data.request.intent.slots.room.value);
 });
 
 app.intent("PublishHelloIntent", {
