@@ -19,21 +19,21 @@ app.launch(function(req, res) {
 // to publish a string
 // speak_topic.publish({data: "wave_hi"});
 
-app.intent("BringObject", {
-  "utterances": ["Bring me {subject}", "Get me {subject}"]
+app.intent("TiagoRoom", {
+  "utterances": ["go to {room}"]
 }, function(req, res) {
   // Log to console that the intent was received
-  console.log("BringObject was requested");
-  msg_topic.publish({data: req.data.request.intent.slots.subject.value});
-  res.say('On my way to bring ' + req.data.request.intent.slots.subject.value);
+  console.log("Go to room was requested");
+  go_to_room_topic.publish({data: req.data.request.intent.slots.room.value});
+  res.say('On my way to bring ' + req.data.request.intent.slots.room.value);
 });
 
-app.intent("GoToWaypoint", {
-  "utterances": ["Go to {waypoint} waypoint"]
+app.intent("PublishHelloIntent", {
+  "utterances": ["Say hello", "Say hi"]
 }, function(req, res) {
   // Log to console that the intent was received
-  console.log("GoToWaypoint req");
-  res.say('Going to ' + req.data.request.intent.slots.waypoint.value);
+  console.log("Hello intent");
+  res.say('Tiago says hello');
 });
 
 // ------------------ //
@@ -57,7 +57,7 @@ ros.on('close', function() {
   console.log('publish-example: Connection to websocket server closed.');
 });
 
-var bring_topic = new ROSLIB.Topic({ros: ros, name: 'tiago/bring_object', messageType: 'std_msgs/String'});
+var go_to_room_topic = new ROSLIB.Topic({ros: ros, name: 'tiago/room_target', messageType: 'std_msgs/String'});
 
 // Export the alexa-app we created at the top
 module.exports = app;
