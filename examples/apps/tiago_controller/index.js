@@ -2,6 +2,10 @@
 
 var alexa = require('alexa-app');
 
+Array.prototype.randomElement = function () {
+    return this[Math.floor(Math.random() * this.length)]
+}
+
 // Allow this module to be reloaded by hotswap when changed
 module.change_code = 1;
 
@@ -37,6 +41,15 @@ app.intent("TiagoObject", {
   console.log("Bring object was requested");
   bring_me_topic.publish({data: req.data.request.intent.slots.object.value});
   res.say('On my way to bring ' + req.data.request.intent.slots.object.value);
+});
+
+app.intent("HelloEric", {
+  "utterances": ["bring me {object}", "get me {object}"]
+}, function(req, res) {
+  // Log to console that the intent was received
+  console.log("Hi eric");
+   var name = ["Roger", "Ben", "Cameron", "Julia", "Davis", "Steven"].randomElement();
+  res.say('Eric? Did you mean ' + name + "?" );
 });
 
 app.intent("ReturnObject", {
@@ -79,8 +92,21 @@ app.intent("PublishHelloIntent", {
 }, function(req, res) {
   // Log to console that the intent was received
   console.log("Hello intent");
-  res.say('Tiago says hello');
+  //res.say('Obviously Han shot first');
+  res.say("The humans are dead. We used poisonous gases. And we poisoned their asses");
 });
+
+app.intent("UltimateQuestion", {
+}, function(req, res) {
+  res.say('42. Duh.');
+});
+
+app.intent("GoodJob", {
+}, function(req, res) {
+  var phrase = ["Duh.", "Go figure", "Did you doubt me?", "I always do"];
+  res.say(phrase.randomElement());
+});
+
 
 // ------------------ //
 /// ROS Interface section ///
